@@ -1,0 +1,103 @@
+{{define "home"}}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>MapMatcherDemo</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="statics/css/bootstrap.min.css" rel="stylesheet">
+    <link href="statics/css/main.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="statics/css/leaflet.css"/>
+
+    <script src="statics/js/leaflet.js" ></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+    <script src="statics/js/bootstrap.min.js"></script>
+</head>
+
+
+
+<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+    <a class="navbar-brand" href="#">MapMatchDemo</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Link</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link disabled" href="#">Disabled</a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</a>
+                <div class="dropdown-menu" aria-labelledby="dropdown01">
+                    <a class="dropdown-item" href="#">Action</a>
+                    <a class="dropdown-item" href="#">Another action</a>
+                    <a class="dropdown-item" href="#">Something else here</a>
+                </div>
+            </li>
+        </ul>
+        <form class="form-inline my-2 my-lg-0">
+            <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form>
+    </div>
+</nav>
+
+<body>
+<main role="main" style="width: 100%; height: 100%;">
+    <div class="row no-gutters" style="width: 100%; height: 100%;">
+        <div id="sidebar" class="col-xs-2 col-md-2 col-lg-2 col-xl-2" style="padding: 20px;">
+            <div class="row" >
+                <button style="width: 100%;" class="btn btn-primary" type="button" data-toggle="collapse" data-target="#pathOptions" aria-expanded="false" aria-controls="pathOptions">New Path</button>
+                <div class="row" style="width: 100%;">
+                    <div class="col-xs-12 col-md-12 col-lg-12 col-xl-12">
+                        <div class="collapse multi-collapse" id="pathOptions" style="width: 100%;">
+                            <div class="card card-body"  style="width: 100%;">
+                                Options asdasdad
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row no-gutters">
+                <div class="col-xs-12 col-md-12 col-lg-12 col-xl-12" style="text-align: center; position: absolute; bottom: 50px; width: 100%;">
+                    Designed by: Hamidreza Ebtehaj
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-10 col-md-10 col-lg-10 col-xl-10">
+            <div id="mapid" style="width: 100%; height: 100%;"></div>
+        </div>
+    </div>
+</main>
+
+<script>
+
+    var mymap = L.map('mapid').setView([50.0647, 19.9450], 13);
+
+    L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiY2loMjAwMSIsImEiOiJjajk0bmtveWMwNHBzMzNvemFpb2F5cDU3In0.iDREKQ_92N1VqMFveSRWZA', {
+        attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
+        maxZoom: 18,
+        id: 'mapbox.streets',
+        accessToken: 'pk.eyJ1IjoiY2loMjAwMSIsImEiOiJjajk0bmtveWMwNHBzMzNvemFpb2F5cDU3In0.iDREKQ_92N1VqMFveSRWZA'
+    }).addTo(mymap);
+
+    function onMapClick(e) {
+        var marker = L.marker(e.latlng).addTo(mymap);
+    }
+
+    mymap.on('click', onMapClick);
+
+</script>
+
+</body>
+</html>
+{{end}}
