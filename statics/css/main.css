@@ -16,3 +16,16 @@ body, p { margin:0;}
 #sidebar {
     background: linear-gradient(#3394a4 , #d595f2);
 }
+
+
+#asd > div {
+    width: 100%;
+}
+
+.card-header {
+    padding: .25rem 1.25rem;
+}
+
+.card-body {
+    padding: 0.25rem;
+}

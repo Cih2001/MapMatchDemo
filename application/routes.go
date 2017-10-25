@@ -1,7 +1,7 @@
 package application
 
 import (
-	"Cih2001/GoTruck/web/controllers"
+	"Cih2001/MapMatchDemo/controllers"
 )
 
 func setupRoutes() {
