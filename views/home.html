@@ -14,7 +14,7 @@
 
     <script src="statics/js/leaflet.js" ></script>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+
     <script src="statics/js/bootstrap.min.js"></script>
 </head>
 
@@ -28,8 +28,8 @@
                 Start new path
             </button>
         </div>
-        <div class="row no-gutters" style="width: 100%; margin-top: 10px;">
-            <div class="row no-gutters" style="width: 100%;">
+            <div class="row no-gutters" style="width: 100%; margin-top: 10px;">
+                <div class="row no-gutters" style="width: 100%;">
                 <div style="margin: auto; text-decoration: underline; font-family: 'Saira Extra Condensed'; font-size: larger;">Paths</div>
             </div>
             <div id="asd" class="row no-gutters" style="width: 100%;">
@@ -76,8 +76,14 @@
 </main>
 
 <script>
+        
+    
 
-    var mymap = L.map('mapid').setView([50.0647, 19.9450], 13);
+    var markers = [];
+    var original_points = [];
+    var matched_points = [];
+    var points_count  = 0;
+    var mymap = L.map('mapid').setView([50.0647, 19.9450], 17);
 
     L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiY2loMjAwMSIsImEiOiJjajk0bmtveWMwNHBzMzNvemFpb2F5cDU3In0.iDREKQ_92N1VqMFveSRWZA', {
         attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
@@ -87,9 +93,45 @@
     }).addTo(mymap);
 
     function onMapClick(e) {
-        var marker = L.marker(e.latlng).addTo(mymap);
+        original_points[points_count] = e.latlng;
+        draw();
+        SendPoint();
+        markers.push(L.marker(e.latlng).addTo(mymap));
+        points_count++;
     }
 
+    function SendPoint() {
+        var xmlhttp = new XMLHttpRequest();
+        var url = "/api/add-point" 
+        xmlhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                var myArr = JSON.parse(this.responseText);
+                myFunction(myArr);
+            }
+        };
+        xmlhttp.open("POST", url, true);
+        xmlhttp.setRequestHeader("Content-type", "application/json");
+        var data = JSON.stringify({"name": "default",
+             "lat": original_points[points_count].lat,
+             "long":original_points[points_count].lng });
+        xmlhttp.send(data);
+        function myFunction(arr) {
+            /*
+                This is the AddPoint response,
+                We should receive matched point and draw it.
+            */
+        }
+    }
+    function draw() {
+        clearMarkers();
+        var line = L.polyline(original_points).addTo(mymap);
+    }
+
+    function clearMarkers() {
+        markers.forEach(function (marker) {
+           mymap.removeLayer(marker);
+        });
+    }
     mymap.on('click', onMapClick);
 
 </script>

@@ -10,8 +10,8 @@ import (
 )
 
 var (
-	Server    *echo.Echo = echo.New()
-	apiPrefix            = "/api"
+	Server      *echo.Echo = echo.New()
+	apiPrefix   = "/api"
 )
 
 type Template struct {
