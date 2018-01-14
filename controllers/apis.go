@@ -22,5 +22,22 @@ func AddPoint(c echo.Context) error {
 	path := new(models.Path)
 	path = path.Find(form.PathName)
 	path.AddPoint(form.Lat, form.Long)
-	return c.JSON(http.StatusOK, map[string]string{"msg": "ok"})
+	ci, err := path.MatchLastPoint()
+	log.Println(ci, err)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, err)
+	}
+
+	var result struct {
+		Points []ResultPoint `json:"points"`
+	}
+
+	for i := ci; i < len(path.MatchedPoints); i++ {
+		result.Points = append(result.Points, ResultPoint{
+			Index:     i,
+			Latitude:  path.MatchedPoints[i].Lat,
+			Longitude: path.MatchedPoints[i].Long,
+		})
+	}
+	return c.JSON(http.StatusOK, result)
 }
