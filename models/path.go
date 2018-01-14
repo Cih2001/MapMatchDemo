@@ -40,7 +40,6 @@ func (model *Path) Find(name string) *Path {
 }
 
 func (model *Path) MatchLastPoint() (int, error) {
-
 	pointsCount := len(model.OriginalPoints)
 	if pointsCount == 0 {
 		return 0, errors.New("not enough points")

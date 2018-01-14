@@ -23,7 +23,6 @@ func AddPoint(c echo.Context) error {
 	path = path.Find(form.PathName)
 	path.AddPoint(form.Lat, form.Long)
 	ci, err := path.MatchLastPoint()
-	log.Println(ci, err)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, err)
 	}
