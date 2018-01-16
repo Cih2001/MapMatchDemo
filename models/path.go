@@ -61,3 +61,37 @@ func (model *Path) MatchLastPoint() (int, error) {
 
 	return changeIndex, nil
 }
+
+func (model *Path) ProjectLastPoint() (result []Point, err error) {
+	pointsCount := len(model.OriginalPoints)
+	if pointsCount == 0 {
+		return nil, errors.New("not enough points")
+	}
+	lat, lng := model.OriginalPoints[pointsCount-1].Lat, model.OriginalPoints[pointsCount-1].Long
+	points := model.matcher.ReturnAllProjections(lat, lng)
+
+	for _, p := range points {
+		result = append(result, Point {
+			Lat: p.Latitude,
+			Long: p.Longitude,
+		})
+	}
+	return
+}
+
+func (model *Path) GetReadsFromLastPoint() (result []Point, err error) {
+	pointsCount := len(model.OriginalPoints)
+	if pointsCount == 0 {
+		return nil, errors.New("not enough points")
+	}
+	lat, lng := model.OriginalPoints[pointsCount-1].Lat, model.OriginalPoints[pointsCount-1].Long
+	points := model.matcher.ReturnRoadsPoints(lat, lng)
+
+	for _, p := range points {
+		result = append(result, Point {
+			Lat: p.Latitude,
+			Long: p.Longitude,
+		})
+	}
+	return
+}

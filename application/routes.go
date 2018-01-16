@@ -15,5 +15,7 @@ func setupHome() {
 
 func setupApis() {
 	Server.POST("/api/add-point", controllers.AddPoint)
+	Server.POST("/api/get-projections", controllers.GetProjections)
+	Server.POST("/api/get-roads", controllers.GetRoads)	
 	Server.GET("/api/show-default-path", controllers.Test)
 }

@@ -40,3 +40,57 @@ func AddPoint(c echo.Context) error {
 	}
 	return c.JSON(http.StatusOK, result)
 }
+
+func GetProjections(c echo.Context) error {
+	form := new(AddPointForm)
+	if err := c.Bind(form); err != nil {
+		log.Println("error binding", err)
+	}
+	path := new(models.Path)
+	path = path.Find(form.PathName)
+	path.AddPoint(form.Lat, form.Long)
+	points, err := path.ProjectLastPoint()
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, err)
+	}
+
+	var result struct {
+		Points []ResultPoint `json:"points"`
+	}
+
+	for i,p := range points {
+		result.Points = append(result.Points, ResultPoint{
+			Index:     i,
+			Latitude: p.Lat,
+			Longitude: p.Long,
+		})
+	}
+	return c.JSON(http.StatusOK, result)
+}
+
+func GetRoads(c echo.Context) error {
+	form := new(AddPointForm)
+	if err := c.Bind(form); err != nil {
+		log.Println("error binding", err)
+	}
+	path := new(models.Path)
+	path = path.Find(form.PathName)
+	path.AddPoint(form.Lat, form.Long)
+	points, err := path.GetReadsFromLastPoint()
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, err)
+	}
+
+	var result struct {
+		Points []ResultPoint `json:"points"`
+	}
+
+	for i,p := range points {
+		result.Points = append(result.Points, ResultPoint{
+			Index:     i,
+			Latitude: p.Lat,
+			Longitude: p.Long,
+		})
+	}
+	return c.JSON(http.StatusOK, result)
+}

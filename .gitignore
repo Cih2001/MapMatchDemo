@@ -68,3 +68,5 @@ swagger-sample.json
 
 # excel files
 *.xlsx
+
+*.code-workspace
