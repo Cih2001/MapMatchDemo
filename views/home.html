@@ -99,7 +99,7 @@
         original_points.push(e.latlng);
         matched_points.push(e.latlng);
         draw();
-        ReceiveMarkers();
+        SendPoint();
         original_markers.push(L.marker(e.latlng).addTo(mymap));
         points_count++;
     }
